@@ -1,0 +1,44 @@
+
+
+<!--<button (click)="toggle()">flyIn</button>-->
+
+  <button [disabled]="!hasDetail" id="DetailsButton" (click)="detailsShowing()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left">Details <i class="fa fa-angle-right" style="font-size:24px"></i></span></button>
+
+  <br>
+  <br>
+  <br>
+  <div class="table-responsive">
+    <div class="col-xs-9">
+  <table class="table" *ngIf="results!=undefined && results.length!=0">
+    <tr *ngIf="results!=undefined && results.length!=0">
+      <th>#</th>
+      <th>Category</th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Favorite</th>
+      <th>Details</th>
+    </tr>
+    <tr *ngFor="let result of results; let i = index" id="!!!{{result.place_id}}" [style.backgroundColor]="changeToYellow(result.place_id)">
+      <th *ngIf="i>=k && i<k+20">{{i+1}}</th>
+      <td *ngIf="i>=k && i<k+20"><img src="{{result.icon}}"></td>
+      <td *ngIf="i>=k && i<k+20">{{result.name}}</td>
+      <td *ngIf="i>=k && i<k+20">{{result.vicinity}}</td>
+      <td *ngIf="i>=k && i<k+20"><button #favor (click)="changeStorageData(favor.value)" value = '{{result.icon}}#&!{{result.name}}#&!{{result.vicinity}}#&!{{result.place_id}}' type="button" class="btn btn-light">
+        <i *ngIf="!myStorage.getItem(result.place_id);" id="{{result.place_id}}" class="fa fa-star-o"></i>
+        <i *ngIf="myStorage.getItem(result.place_id);" id="{{result.place_id}}" class="fa fa-star" style="color: yellow"></i>
+      </button></td>
+      <td *ngIf="i>=k && i<k+20"><button #place (click)="changToDetail(place.value)" type="button" class="btn btn-light" value="{{result.place_id}}"><i class="fa fa-angle-right" style="font-size:24px"></i></button></td>
+    </tr>
+  </table>
+    </div>
+  </div>
+<div id="bottom">
+  <button id="pre" *ngIf="k>0" type="button" class="btn btn-light" (click)="prePage(k-20)">Previous</button>
+  <button id="next" *ngIf="resultsData && k+20<=results.length" type="button" class="btn btn-light" (click)="nextPage(k+20)">Next</button>
+  <div *ngIf="results==undefined || results.length==0" class="alert alert-danger" role="alert" style="width: 80%; margin-left: auto;margin-right: auto; text-align: left">
+    Failed to get search results.
+  </div>
+
+</div>
+
+

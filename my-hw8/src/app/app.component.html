@@ -1,0 +1,168 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>MyHW8App</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="container card pt-3 pb-4 col-sm-8 col-xs-12 offset-sm-2 bg-light">
+  <form (ngSubmit)="onSubmit()" #mapForm="ngForm" type="onsubmit" name="myForm">
+    <h4 class="title" style="text-align: center" >Travel and Entertainment Seaarch</h4>
+    <div class="form-group row">
+      <label class="col-sm-2 offset-sm-2 col-form-label">Keyword<span class="text-danger">*</span></label>
+      <div class="col-sm-6">
+        <input  autocomplete="off" class="form-control" #keyword (keyup)="validate(keyword.value)"   [(ngModel)]="model.keyword" style="border-style: solid;border-width: 3px" class="form-control" id='keyword' type="text" name="keyword"  required="required">
+          <div id="error" *ngIf="(!valide)" style="color: red">
+            Please enter a keyword
+          </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-2 offset-sm-2 col-form-label">Category</label>
+      <div class="col-sm-4">
+        <select [(ngModel)]="model.category" class="custom-select" name="category">
+          <option value="default">Default</option>
+          <option value="airport">Airport</option>
+          <option value="amusement_park">Amusement Park</option>
+          <option value="aquarium">Aquarium</option>
+          <option value="art_gallery">Art Gallery</option>
+          <option value="bakery">Bakery</option>
+          <option value="bar">Bar</option>
+          <option value="beauty_salon">Beauty Salon</option>
+          <option value="bowling_alley">Bowling Alley</option>
+          <option value="bus_station">Bus Station</option>
+          <option value="cafe">Cafe</option>
+          <option value="campground">Campground</option>
+          <option value="car_rental">Car Rental</option>
+          <option value="casino">Casino</option>
+          <option value="lodging">Lodging</option>
+          <option value="movie_theater">Movie Theater</option>
+          <option value="museum">Museum</option>
+          <option value="night_club">Night Club</option>
+          <option value="park">Park</option>
+          <option value="parking">Parking</option>
+          <option value="restaurant">Restaurant</option>
+          <option value="shopping_mall">Shopping Mall</option>
+          <option value="stadium">Stadium</option>
+          <option value="subway_station">Subway Station</option>
+          <option value="taxi_stand">Taxi Stand</option>
+          <option value="train_station">Train Station</option>
+          <option value="transit_station">Transit Station</option>
+          <option value="travel_agency">Travel Agency</option>
+          <option value="zoo">Zoo</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="input-group mb-3">
+        <label class="col-sm-2 offset-sm-2 col-form-label">Distance (miles)</label>
+        <div class="col-sm-6">
+          <input [(ngModel)]="model.distance" id="distance" class="form-control" type="text" name="distance" placeholder="10"></div>
+        </div>
+    </div>
+
+
+    <fieldset class="form-group">
+      <div class="row">
+
+        <label class="col-form-label col-sm-2 offset-sm-2">From<span class="text-danger">*</span></label>
+        <div class="col-sm-6">
+
+          <div class="custom-control custom-radio">
+            <input class="custom-control-input"  id="here1" type="radio" name="here" value="http://ip-api.com/json" (click)="send1()" checked>
+            <label class="custom-control-label" for="here1">Current location</label>
+          </div>
+
+          <div class="custom-control custom-radio">
+            <input class="custom-control-input" id="here3" type="radio" name="here" (click)="send2()">
+            <label class="custom-control-label" for="here3">Other.Please specify:</label>
+            <input class="form-control" (keyup)="validate2(location.value)" [disabled]="hasHere==0"  #location autocomplete="off" [(ngModel)]="model.here" name="here" style="border-style: solid;border-width: 3px"  id="location" type="text"  placeholder="Enther a location" required="required">
+            <div id="error1" *ngIf="(!valide2)" style="color: red">
+              Please enter a location
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="row">
+      <div class="col-sm-10 offset-sm-2">
+
+        <button [disabled]="!allGood"  class="btn btn-primary" id="submit" name="submit" (click)="setSubmit()">
+          <span><i class="fa fa-search" aria-hidden="true"></i>Search</span>
+        </button>
+        <input class="btn btn-light" value="Clear" type="reset" (click)="clearPage()">
+      </div>
+    </div>
+
+  </form>
+</div>
+<div id="results" class="results">
+  <button id="ResultsButton" (click)="resultsButton()" class="btn btn-primary btn-sm" value="Results" style="margin-top: 2vw">Results</button>
+
+  <button id="FavorButton" (click)="favorButton()"  class="btn btn-light btn-sm" value="Favorites" style="margin-top: 2vw;color: #05adfb">Favorites</button>
+</div>
+<div *ngIf="showbar==0" id="bar" class="progress" style="margin-left: 20%;width: 60%;margin-top: 20vw; position: absolute">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 40%"></div>
+</div>
+<div [ngSwitch]="display">
+  <div [@flyInOut]="state"><app-results *ngSwitchCase="'results'" [indexOfDetails]="indexOfDetails" [hasDetail]="hasDetail" (detailsShow)="showDetails($event)" (changeSite)="changeSite($event)" [lat]="getLatForStart" [lon]="getLngForStart" [resultsData]="appJson"></app-results></div>
+  <div [@flyInOutDetail]="stateDetail"><app-details *ngSwitchCase="'details'" (changeList)="changeToList($event)"  [placeId]="placeId" [lonForEnd]="lonForEnd" [latForEnd]="latForEnd" [latData]="latForStart" [lonData]="lngForStart" [photoData]="photos" [detailsData]="detailsJson"></app-details></div>
+<div [@flyInOut]="state"><app-favorites *ngSwitchCase="'favorites'" [indexOfDetails]="indexOfDetails" [hasDetail]="hasDetail" (detailsShow)="showDetails($event)" (changeSite)="changeSite($event)"></app-favorites></div>
+</div>
+
+<div id="table"></div>
+<div id="detail"></div>
+<div id="here2" hidden="hidden"></div>
+
+
+<div *ngIf="detailsJson!=undefined && detailsJson.opening_hours" class="modal fade" id="demoModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Open hours</h2>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <th> {{detailsJson.opening_hours.weekday_text[indexOpenHoursData]}} </th>
+          <tr *ngFor="let open of detailsJson.opening_hours.weekday_text; let i = index">
+            <td *ngIf="i > indexOpenHoursData">{{open}}</td>
+
+          </tr>
+          <tr *ngFor="let open of detailsJson.opening_hours.weekday_text; let i = index">
+            <td *ngIf="i < indexOpenHoursData">{{open}}</td>
+          </tr>
+        </table>
+      </div>
+      <button type="button" class="close" data-dismiss="modal">
+        <div id="closeButton" class="btn btn-light">
+          Close
+        </div>
+      </button>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+<!--https://maps.googleapis.com/maps/api/place/
+nearbysearch/json?pagetoken=
+CpQCAgEAAFxg8o-eU7_uKn7Yqjana-H
+QIx1hr5BrT4zBaEko29ANsXtp9mrqN0yrKWhf-y2PUpHRLQb1GT-mtxNcX
+ou8TwkXhi1Jbk-ReY7oulyuvKSQrw1lgJElggGlo0d6indiH1U-tDwquw4t
+U_UXoQ_sj8OBo8XBUuWjuuFShqmLMP-0W59Vr6CaXdLrF8M3wFR4dUUhSf5U
+C4QCLaOMVP92lyh0OdtF_m_9Dt7lz-Wniod9zDrHeDsz_by570K3jL1VuD
+KTl_U1cJ0mzz_zDHGfOUf7VU1kVIs1WnM9SGvnm8YZURLTtMLMWx8-doGUE56Af
+_VfKjGDYW361OOIj9GmkyCFtaoCmTMIr5kgyeUSnB-IEhDlzujVrV6O9Mt7N4DagR6
+RGhT3g1viYLS4kO5YindU6dm3GIof1Q&key=AIzaSyB5HpnNpiDMGXftWGmx0Fg6bfPJDfJ_WPE-->

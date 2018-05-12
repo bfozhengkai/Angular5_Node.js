@@ -1,0 +1,33 @@
+#openhours {
+  margin-left: 20px;
+  color: #105dff;
+}
+#openhours:hover {
+  text-decoration: underline;
+}
+.star-top {
+  font-size: 1.8vw;
+  height: 4vw;
+  color: #e7711b;
+  position: absolute;
+  z-index: 1;
+  display: block;
+  overflow: hidden;
+
+}
+
+.star-bottom {
+  color:white;
+  font-size: 1.8vw;
+  height: 4vw;
+  position: relative;
+  display: block;
+  z-index: 0;
+}
+.star-rating {
+  color:white;
+  font-size: 2.5vw;
+  height: 3vw;
+  width: 9vw;
+  float: left;
+}

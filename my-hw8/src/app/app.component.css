@@ -1,0 +1,16 @@
+
+.results {
+  text-align: center;
+
+}
+
+#ResultsButton {
+  width: auto;
+}
+#FavorButton {
+  width: auto;
+}
+
+#closeButton {
+  float: right;
+}

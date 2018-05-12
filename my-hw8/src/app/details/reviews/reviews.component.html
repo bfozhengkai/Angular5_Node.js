@@ -1,0 +1,71 @@
+
+<div class="dropdown" id="reviews">
+  <button id="reviewButton" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Google Reviews
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" (click)="googleReview()">Google Reviews</a>
+    <a class="dropdown-item" (click)="yelpReview()">Yelp Reviews</a>
+  </div>
+</div>
+<div class="dropdown" id="order">
+  <button id="orderbutton" class="btn btn-secondary dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Default Order
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" (click)="loadDefault()">Default Order</a>
+    <a class="dropdown-item" (click)="loadHightestRating()">Highest Rating</a>
+    <a class="dropdown-item" (click)="loadLowestRating()">Lowest Rating</a>
+    <a class="dropdown-item" (click)="loadMostRecent()">Most Recent</a>
+    <a class="dropdown-item" (click)="loadLeastRecent()">Least Recent</a>
+
+  </div>
+</div>
+
+<table [@fadeInOut] *ngIf=" reviewJson && display=='google'" class="table table-sm">
+  <tr *ngFor="let review of showData">
+
+    <td class="panel-footer" ><a target="_blank" href="{{review.author_url}}"><img style="width: 128px" class="rounded-circle" src="{{review.profile_photo_url}}"></a></td>
+    <td class="panel-footer">
+      <a target="_blank" href="{{review.author_url}}">{{review.author_name}}</a>
+      <br>
+      <span style="color: orange" *ngIf="1<=review.rating">★</span>
+      <span style="color: orange" *ngIf="2<=review.rating">★</span>
+      <span style="color: orange" *ngIf="3<=review.rating">★</span>
+      <span style="color: orange" *ngIf="4<=review.rating">★</span>
+      <span style="color: orange" *ngIf="5<=review.rating">★</span>
+
+
+      {{changeToTime(review.time*1000)}}
+      <br>
+      {{review.text}}</td>
+  </tr>
+  <div *ngIf="!reviewJson ||  reviewJson.result.reviews == undefined" class="alert alert-warning" role="alert">
+    No records.
+  </div>
+
+</table>
+
+
+<table [@fadeInOut] *ngIf="display=='yelp'" class="table table-sm">
+  <tr *ngFor="let review of yelpData">
+    <td class="panel-footer" ><a target="_blank" href="{{review.url}}"><img style="width: 128px" src="{{review.user.image_url}}"  class="rounded-circle"></a></td>
+    <td class="panel-footer">
+      <a target="_blank" href="{{review.url}}">{{review.user.name}}</a>
+      <br>
+      <span style="color: orange" *ngIf="1<=review.rating">★</span>
+      <span style="color: orange" *ngIf="2<=review.rating">★</span>
+      <span style="color: orange" *ngIf="3<=review.rating">★</span>
+      <span style="color: orange" *ngIf="4<=review.rating">★</span>
+      <span style="color: orange" *ngIf="5<=review.rating">★</span>
+      {{review.time_created}}
+      <br>
+      {{review.text}}
+    </td>
+  </tr>
+  <div *ngIf="yelpData == undefined || yelpData.length==0" class="alert alert-warning" role="alert">
+    No records.
+  </div>
+</table>
+
+

@@ -1,0 +1,42 @@
+<h1 style="text-align: center">{{detailsData.name}}</h1>
+<div style="margin-left: auto; margin-right:auto">
+  <div class=" col-xs-12 col-md-10 col-md-push-1" style="margin-left: auto;margin-right: auto">
+    <br>
+    <button (click)="changeToList()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"><i class="fa fa-angle-left" style="font-size:24px"></i>List</span></button>
+    <a class="twitter-share-button" href="{{twitter()}}">
+      <img id="twitterImg" src="http://cs-server.usc.edu:45678/hw/hw8/images/Twitter.png">
+    </a>
+    <button [disabled]="display!='info'"  id="favor" #favor (click)="changeStorageData(favor.value)" value = '{{detailsData.icon}}#&!{{detailsData.name}}#&!{{detailsData.formatted_address}}#&!{{detailsData.place_id}}' type="button" class="btn btn-light">
+      <i *ngIf="!myStorage.getItem(detailsData.place_id)" id="{{detailsData.place_id}}" class="fa fa-star-o" style="font-size:24px"></i>
+      <i *ngIf="myStorage.getItem(detailsData.place_id)" id="{{detailsData.place_id}}" class="fa fa-star" style="font-size:24px;color: yellow"></i>
+    </button>
+    <br>
+    <br>
+    <ul class="nav nav-tabs">
+        <li id="infoIntem" class="nav-item">
+          <a (click)="loadInfo()" [class.active]="display=='info'" class="nav-link" id="home-tab" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">Info</a>
+        </li>
+        <li class="nav-item">
+          <a (click)="loadPhotos()" [class.active]="display=='photos'"  class="nav-link" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false">Photos</a>
+        </li>
+        <li class="nav-item">
+          <a (click)="loadMap()" [class.active]="display=='map'" class="nav-link" data-toggle="tab" role="tab" aria-controls="contact" aria-selected="false">Map</a>
+        </li>
+        <li class="nav-item">
+          <a (click)="loadReviews()" [class.active]="display=='reviews'" class="nav-link" data-toggle="tab" role="tab" aria-controls="contact" aria-selected="false">Reviews</a>
+        </li>
+    </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+      </div>
+    <br>
+    <br>
+    <div [ngSwitch]="display">
+    <app-info *ngSwitchCase="'info'" [infoData]="detailsData" ></app-info>
+    <app-map *ngSwitchCase="'map'" [infoData]="detailsData" [mapStartLat]="latData" [mapStartLon]="lonData" [mapEndLat]="latForEnd" [mapEndLon]="lonForEnd"></app-map>
+    <app-photos *ngSwitchCase="'photos'" [photos]="photoData"></app-photos>
+    <app-reviews *ngSwitchCase="'reviews'" [reviewJson]="reviewJson" [order]="order"></app-reviews>
+    </div>
+  </div>
+</div>

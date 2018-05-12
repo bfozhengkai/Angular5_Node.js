@@ -1,0 +1,9 @@
+<div class="card-deck" *ngIf="photos">
+<div id="innerFrame"  *ngFor="let photo of photos; let i = index">
+  <a target="_blank" href="{{photo}}"><img src="{{photo}}"></a>
+</div>
+
+</div>
+<div *ngIf="photos.length==0" class="alert alert-warning" role="alert">
+  No records.
+</div>

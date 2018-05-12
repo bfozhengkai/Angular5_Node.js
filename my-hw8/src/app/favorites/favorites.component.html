@@ -1,0 +1,33 @@
+
+
+
+<div>
+  <button [disabled]="!hasDetail"  id="DetailsButton" (click)="detailsShowing()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left">Details <i class="fa fa-angle-right" style="font-size:24px"></i></span></button>
+  <br>
+  <br>
+  <div class="table-responsive">
+  <table class="table" *ngIf="data && index != 0">
+    <tr *ngIf="data ">
+      <th *ngIf="data">#</th>
+      <th *ngIf="data">Category</th>
+      <th *ngIf="data">Name</th>
+      <th *ngIf="data">Address</th>
+      <th *ngIf="data">Favorite</th>
+      <th *ngIf="data">Details</th>
+    </tr>
+    <tr *ngFor="let dataOfArray of data;let i = index" [style.backgroundColor]="changeToYellow(dataOfArray.placeId)">
+      <th *ngIf="i>=k && i<k+20">{{i+1}}</th>
+      <td *ngIf="i>=k && i<k+20"><img src="{{dataOfArray.icon}}"></td>
+      <td *ngIf="i>=k && i<k+20">{{dataOfArray.name}}</td>
+      <td *ngIf="i>=k && i<k+20">{{dataOfArray.address}}</td>
+      <td *ngIf="i>=k && i<k+20"><button  #removeId (click)="remove(removeId.value)" class="btn btn-light" value="{{i}}"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+      <td *ngIf="i>=k && i<k+20"><button #place (click)="changToDetail(place.value)" type="button" class="btn btn-light" value="{{dataOfArray.placeId}}"><i class="fa fa-angle-right" style="font-size:24px"></i></button></td>
+    </tr>
+  </table>
+  </div>
+  <button *ngIf="k>0" type="button" class="btn btn-light" (click)="prePage(k-20)">Previous</button>
+  <button *ngIf="k+20<=localStorage.length" type="button" class="btn btn-light" (click)="nextPage(k+20)">Next</button>
+  <div *ngIf="data==null || index==0" class="alert alert-warning" role="alert" style="width: 80%; margin-left: auto;margin-right: auto">
+    No records.
+  </div>
+</div>

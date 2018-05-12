@@ -1,0 +1,42 @@
+
+<div id="mapPage">
+
+  <table>
+    <tr>
+      <td>
+        <div id="start">From <br>
+          <input #currentLoc [(ngModel)]="start" class="form-control" type="text" placeholder="Your location">
+        </div>
+      </td>
+      <td>
+      <div id="destination">To <br>
+        <input [disabled]="true"  value="{{infoData.name}} {{infoData.formatted_address}}" class="form-control" type="text">
+      </div>
+      </td>
+      <td>
+        <div>Travel Mode<br>
+      <select id="mode" class="custom-select" [(ngModel)]="mode">
+        <option  value="DRIVING">Driving</option>
+        <option value="WALKING">Walking</option>
+        <option value="BICYCLING">Bicycling</option>
+        <option value="TRANSIT">Transit</option>
+      </select>
+        </div>
+      </td>
+      <td>
+        <div style="width: 140px; margin-left: -100px"><input id="getButton" class="btn btn-primary btn-sm" type="button" value="Get Directions">
+        </div>
+      </td>
+  </table>
+
+  <img style="margin-top: 20px" *ngIf="showStreet" src="http://cs-server.usc.edu:45678/hw/hw8/images/Pegman.png" width=40vw height=40vw (click)="streetView()">
+  <img style="margin-top: 20px" *ngIf="!showStreet" src="http://cs-server.usc.edu:45678/hw/hw8/images/Map.png" width=40vw height=40vw (click)="streetView()">
+
+
+</div>
+<br>
+
+<div id="map"></div>
+<br>
+<div id="Panel"></div>
+

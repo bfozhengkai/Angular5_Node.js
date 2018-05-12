@@ -1,0 +1,15 @@
+
+#reviews {
+  width:180px;
+  display: inline-block;
+}
+#order {
+  width: 280px;
+  display: inline-block;
+}
+
+@media only screen and (max-width: 500px) {
+  #order {
+    width: 150px;
+  }
+}

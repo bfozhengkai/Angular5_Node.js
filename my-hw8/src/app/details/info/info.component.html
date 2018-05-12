@@ -1,0 +1,47 @@
+<table *ngIf="infoData" class="table table-striped">
+  <tr *ngIf="infoData.formatted_address">
+    <th class="panel-footer">Address</th>
+    <td class="panel-footer">{{infoData.formatted_address}}</td>
+  </tr>
+  <tr *ngIf="infoData.international_phone_number">
+    <th class="panel-body">Phone Number</th>
+    <td class="panel-body">{{infoData.international_phone_number}}</td>
+  </tr>
+  <tr *ngIf="infoData.price_level">
+    <th class="panel-footer">Price Level</th>
+    <td class="panel-footer">
+      <span *ngIf="1<=infoData.price_level">$</span>
+      <span *ngIf="2<=infoData.price_level">$</span>
+      <span *ngIf="3<=infoData.price_level">$</span>
+      <span *ngIf="4<=infoData.price_level">$</span>
+      <span *ngIf="5<=infoData.price_level">$</span>
+    </td>
+  </tr>
+  <tr *ngIf="infoData.rating">
+    <th class="panel-body">Rating</th>
+    <td class="panel-body"><div style="float: left">{{infoData.rating}}</div>
+      <div class="star-rating">
+        <div  [style.width]="starShow()+'%'" id="star-top" class="star-top">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <div class="star-bottom">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+      </div>
+    </td>
+  </tr>
+  <tr *ngIf="infoData.url">
+    <th class="panel-footer">Google Page</th>
+    <td class="panel-footer"><a target="_blank" href="{{infoData.url}}">{{infoData.url}}</a></td>
+  </tr>
+  <tr *ngIf="infoData.website">
+    <th class="panel-body">Website</th>
+    <td class="panel-body"><a target="_blank" href="{{infoData.website}}">{{infoData.website}}</a></td>
+  </tr>
+  <tr *ngIf="infoData.opening_hours">
+    <th class="panel-footer">Hours</th>
+    <td *ngIf="infoData.opening_hours.open_now" class="panel-footer">Open now: {{OpeningHour}}<div id="openhours" (click)="openHourShowing(index)" type="button" data-toggle="modal" data-target="#demoModal">Daily open hours</div ></td>
+    <td *ngIf="!infoData.opening_hours.open_now" class="panel-footer">Closed </td>
+  </tr>
+</table>
+
